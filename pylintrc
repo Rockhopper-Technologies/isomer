@@ -1,0 +1,32 @@
+
+[REPORTS]
+output-format=colorized
+
+[BASIC]
+
+# Good variable names which should always be accepted, separated by a comma.
+good-names=e,_
+
+[SPELLING]
+
+# Spelling dictionary name. Available dictionaries: en_US (myspell).
+spelling-dict=en_US
+
+# List of comma separated words that should not be checked.
+spelling-ignore-words=
+    Avram,
+    Booleans,
+    cli,
+    EFI,
+    El,
+    implantisomd5,
+    Joliet,
+    kickstart,
+    Lubkin,
+    MPL,
+    pathlib, pragma, Prepopulate,
+    sphinxcontrib, symlink, symlinks,
+    Torito,
+    volset,
+    whitespace,
+    xorrisofs,

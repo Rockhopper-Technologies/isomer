@@ -1,0 +1,17 @@
+*.egg-info
+*.pyc
+__pycache__
+
+# Editors
+.spyproject
+.vscode
+
+# Tox
+.tox
+# Coverage
+htmlcov
+.coverage*
+
+# Setup
+dist
+build

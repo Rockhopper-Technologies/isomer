@@ -1,0 +1,30 @@
+
+- Use pydantic to validate config?
+  - Downside is additional dependency
+
+- Add check for include to make sure the same file isn't include multiple times
+
+- Readme, docs
+
+- Add type hints
+
+- Add option to overwrite/provide volume_id on commandline
+  - Avoid using option '-v' since it's often associated with verbosity
+
+- Add option to override checksum on commandline
+
+- Change grub_cfg to grub_template
+
+- Treat kickstart as a template if file is not found
+
+- Allow overridign ks_path
+
+- Allow overriding grub_cfg_path
+
+- Move extra variables to a dictionary?
+
+- Detect loops in include logic
+
+- Allow lone docstrings in flavor configuration
+
+- Allow overrides for implantisomd5 and xorrisofs

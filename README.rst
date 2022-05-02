@@ -137,7 +137,7 @@ Functions
 
     Example:
 
-    .. code-block:: console
+    .. code-block:: python
 
         include('/path/to/flavor.cfg')*
 
@@ -151,7 +151,7 @@ Comments start with a ``#`` and can start at any place in a line.
 
 Example:
 
-.. code-block:: console
+.. code-block:: python
 
     # This is a full line comment
     checksum = True  # This is an inline comment
@@ -171,7 +171,7 @@ Required Fields
 
     Example:
 
-    .. code-block:: console
+    .. code-block:: python
 
         volume_id = 'test_1_2_3'
 
@@ -189,7 +189,7 @@ Optional Fields
 
     Example:
 
-    .. code-block:: console
+    .. code-block:: python
 
         exclude = ['foo.txt', 'misc', 'boot/grub.cfg']
 
@@ -202,7 +202,7 @@ Optional Fields
 
     Example:
 
-    .. code-block:: console
+    .. code-block:: python
 
         include = {
             'AppStream': '/srv/repos/Apps',
@@ -220,7 +220,7 @@ Optional Fields
 
     Example:
 
-    .. code-block:: console
+    .. code-block:: python
 
         kickstart = '/path/to/kickstart'
 
@@ -238,7 +238,7 @@ Optional Fields
 
     Example:
 
-    .. code-block:: console
+    .. code-block:: python
 
         grub_template = '''
         menuentry 'Install {volume_id}' --hotkey=I  {{
@@ -259,7 +259,7 @@ Optional Fields
 
     Example:
 
-    .. code-block:: console
+    .. code-block:: python
 
         checksum = False
 
@@ -274,7 +274,7 @@ Optional Fields
 
     Example:
 
-    .. code-block:: console
+    .. code-block:: python
 
         bios_boot = True
 
@@ -288,7 +288,7 @@ Optional Fields
 
     Example:
 
-    .. code-block:: console
+    .. code-block:: python
 
         efi_boot = True
 
@@ -298,9 +298,8 @@ Optional Fields
 
     Example:
 
-    .. code-block:: console
+    .. code-block:: python
 
-        extra_fields = {
             'build_version': '1.2.3',
             'config_opts': {'foo': 'bar', 'spam': 'eggs'},
             'major_ver': 1,

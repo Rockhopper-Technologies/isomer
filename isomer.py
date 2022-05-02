@@ -211,8 +211,8 @@ class ISO:  # pylint: disable=too-many-instance-attributes,too-many-arguments
             self.fields['ks_path'] = f'/{KS_REL_PATH}'
 
         # Grub configuration
-        self.grub_cfg = config.pop('grub_cfg', None)
-        if self.grub_cfg:
+        self.grub_template = config.pop('grub_template', None)
+        if self.grub_template:
             self.exclude.append(GRUB_REL_PATH)
 
         # Generate and inject checksum
@@ -286,7 +286,7 @@ class ISO:  # pylint: disable=too-many-instance-attributes,too-many-arguments
             LOGGER.info('%s -> %s', relative_path, target)
             working_path.symlink_to(target)
 
-        if self.grub_cfg:
+        if self.grub_template:
             self.generate_grub()
 
     def gen_iso(self):
@@ -394,7 +394,7 @@ class ISO:  # pylint: disable=too-many-instance-attributes,too-many-arguments
             grub_path.parent.mkdir(parents=True, mode=0o755, exist_ok=True)
 
         with grub_path.open('w') as grub:
-            grub.write(self.grub_cfg.format_map(self.fields))
+            grub.write(self.grub_template.format_map(self.fields))
 
 
 def get_config_file(flavor: Path):

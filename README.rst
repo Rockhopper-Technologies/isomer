@@ -167,7 +167,7 @@ Required Fields
 
     Can not include any whitespace
 
-    Available for use in ``grub_cfg``.
+    Available for use in ``grub_template``.
 
     Example:
 
@@ -216,7 +216,7 @@ Optional Fields
 
     This is a shortcut for ``include = {'ks.cfg': '/path/to/kickstart'}``
 
-    Available for use in ``grub_cfg``.
+    Available for use in ``grub_template``.
 
     Example:
 
@@ -224,11 +224,11 @@ Optional Fields
 
         kickstart = '/path/to/kickstart'
 
-| **grub_cfg** *'string'*
+| **grub_template** *'string'*
 
     A template for creating ``EFI/BOOT/grub.cfg``
 
-    ``grub_cfg`` allows variable substitution using the `Format Specification Mini-Language`_.
+    ``grub_template`` allows variable substitution using the `Format Specification Mini-Language`_.
 
     By default, ``volume_id`` is the only variable available for substitution.
     If ``kickstart`` is set, a variable, ``ks_path`` is also available with the value ``'/ks.cfg'``.
@@ -240,7 +240,7 @@ Optional Fields
 
     .. code-block:: console
 
-        grub_cfg = '''
+        grub_template = '''
         menuentry 'Install {volume_id}' --hotkey=I  {{
             linuxefi /images/pxeboot/vmlinuz inst.stage2=hd:LABEL={volume_id} inst.ks=hd:LABEL={volume_id}:{ks_path} quiet
             initrdefi /images/pxeboot/initrd.img
@@ -295,7 +295,7 @@ Optional Fields
 | \*
 
     Any extra variables in a flavor configuration are also available for substitution
-    in ``grub_cfg``.
+    in ``grub_template``.
 
     Example:
 

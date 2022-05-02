@@ -23,7 +23,7 @@ FLAVOR_CONFIG = {
     'source': '/mnt',
     'checksum': True,
     'include': {'Apps': '/srv/repos/Apps', 'Base': '/srv/repos/Base'},
-    'grub_cfg': "\nTis but a scratch\nA scratch? Your arm's off!\n",
+    'grub_template': "\nTis but a scratch\nA scratch? Your arm's off!\n",
     'answer': 42,
 }
 

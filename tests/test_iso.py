@@ -50,7 +50,7 @@ class TestInit(unittest.TestCase):
         self.assertEqual(iso.exclude, [])
 
         # Grub configuration is None
-        self.assertIsNone(iso.grub_cfg)
+        self.assertIsNone(iso.grub_template)
 
         # include is empty
         self.assertEqual(iso.include, {})
@@ -133,13 +133,13 @@ class TestInit(unittest.TestCase):
         iso = self.iso_partial(config={'exclude': ('foo',)})
         self.assertEqual(iso.exclude, ['foo'])
 
-    def test_grub_cfg(self):
-        """grub_cfg provided"""
+    def test_grub_template(self):
+        """grub_template provided"""
 
-        iso = self.iso_partial(config={'grub_cfg': 'foo'})
+        iso = self.iso_partial(config={'grub_template': 'foo'})
 
-        # grub_cfg is populated
-        self.assertEqual(iso.grub_cfg, 'foo')
+        # grub_template is populated
+        self.assertEqual(iso.grub_template, 'foo')
 
         # GRUB path is excluded
         self.assertEqual(iso.exclude, [isomer.GRUB_REL_PATH])
@@ -362,7 +362,7 @@ class TestPopulateWorking(unittest.TestCase):
     def test_grub(self):
         """Test grub generation"""
 
-        iso = self.iso_partial(config={'grub_cfg': '{volume_id}, {extra}', 'extra': 'foobar'})
+        iso = self.iso_partial(config={'grub_template': '{volume_id}, {extra}', 'extra': 'foobar'})
 
         with patch('subprocess.run'), patch('subprocess.Popen'):
             iso.generate()
@@ -382,7 +382,7 @@ class TestPopulateWorking(unittest.TestCase):
 
         iso = isomer.ISO(
             quiet=True, source=TEST_SRC / 'misc', outfile='test.iso', working=self.working,
-            config={'volume_id': '4_5_6', 'grub_cfg': '{volume_id}, {extra}', 'extra': 'foobar'}
+            config={'volume_id': '45_6', 'grub_template': '{volume_id}, {extra}', 'extra': 'foobar'}
         )
 
         with patch('subprocess.run'), patch('subprocess.Popen'):
@@ -395,7 +395,7 @@ class TestPopulateWorking(unittest.TestCase):
 
         self.assertEqual(
             (self.working / isomer.GRUB_REL_PATH).read_text(),
-            '4_5_6, foobar'
+            '45_6, foobar'
         )
 
     def test_xorrisofs_fails(self):

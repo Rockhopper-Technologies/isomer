@@ -210,12 +210,22 @@ class TestInit(unittest.TestCase):
         self.assertFalse(iso.bios_boot)
         self.assertFalse(iso.efi_boot)
 
-    def test_extra_keywords(self):
-        """Extra keywords saved in fields"""
+    def test_extra_fields(self):
+        """extra_fields provided"""
 
-        iso = self.iso_partial(config={'foo': 1, 'bar': 'two', 'doo': (1, 2, 3)})
+        iso = self.iso_partial(config={'extra_fields': {'foo': 1, 'bar': 'two', 'doo': (1, 2, 3)}})
         self.assertEqual(
             iso.fields, {'volume_id': 'test_1_2_3', 'foo': 1, 'bar': 'two', 'doo': (1, 2, 3)}
+        )
+
+    def test_unsupported_fields(self):
+        """Warn on unsupported fields"""
+
+        with self.assertLogs(isomer.LOGGER, logging.WARNING) as logs:
+            self.iso_partial(config={'foo': 'bar', 'spam': 'eggs'})
+
+        self.assertRegex(
+            logs.output[0], "Ignoring unsupported fields in flavor configuration: foo, spam"
         )
 
 
@@ -362,7 +372,9 @@ class TestPopulateWorking(unittest.TestCase):
     def test_grub(self):
         """Test grub generation"""
 
-        iso = self.iso_partial(config={'grub_template': '{volume_id}, {extra}', 'extra': 'foobar'})
+        iso = self.iso_partial(
+            config={'grub_template': '{volume_id}, {extra}', 'extra_fields': {'extra': 'foobar'}}
+        )
 
         with patch('subprocess.run'), patch('subprocess.Popen'):
             iso.generate()
@@ -382,7 +394,11 @@ class TestPopulateWorking(unittest.TestCase):
 
         iso = isomer.ISO(
             quiet=True, source=TEST_SRC / 'misc', outfile='test.iso', working=self.working,
-            config={'volume_id': '45_6', 'grub_template': '{volume_id}, {extra}', 'extra': 'foobar'}
+            config={
+                'volume_id': '45_6',
+                'grub_template': '{volume_id}, {extra}',
+                'extra_fields': {'extra': 'foobar'}
+            }
         )
 
         with patch('subprocess.run'), patch('subprocess.Popen'):
@@ -396,6 +412,21 @@ class TestPopulateWorking(unittest.TestCase):
         self.assertEqual(
             (self.working / isomer.GRUB_REL_PATH).read_text(),
             '45_6, foobar'
+        )
+
+    def test_grub_missing_fields(self):
+        """Error on missing grub template fields"""
+
+        iso = self.iso_partial(
+            config={'grub_template': '{volume_id}, {extra}'}
+        )
+
+        with patch('subprocess.run'), patch('subprocess.Popen'):
+            with self.assertLogs(isomer.LOGGER, logging.ERROR) as logs:
+                iso.generate()
+
+        self.assertRegex(
+            logs.output[0], "Unknown field 'extra' in grub_template"
         )
 
     def test_xorrisofs_fails(self):

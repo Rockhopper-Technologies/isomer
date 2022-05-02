@@ -292,26 +292,27 @@ Optional Fields
 
         efi_boot = True
 
-| \*
+| **extra_fields** *{'iso_path': 'full_path', ...}*
 
-    Any extra variables in a flavor configuration are also available for substitution
-    in ``grub_template``.
+    Extra variables to make available for substitution in ``grub_template``.
 
     Example:
 
     .. code-block:: console
 
-        build_version = '1.2.3'
-        config_opts = {'foo': 'bar', 'spam': 'eggs'}
-        major_ver = 1
-        villains = ['Joker', 'Riddler', 'Penguin']
+        extra_fields = {
+            'build_version': '1.2.3',
+            'config_opts': {'foo': 'bar', 'spam': 'eggs'},
+            'major_ver': 1,
+            'villains': ['Joker', 'Riddler', 'Penguin'],
+        }
 
 
 FAQ
 ===
 
 
-Why is Isomer called Isomer?
+Why is ISOmer called ISOmer?
 ----------------------------
 
 We went looking for words in the dictionary with ISO in them. In chemistry, an isomer is a compound

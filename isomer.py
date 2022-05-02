@@ -223,7 +223,13 @@ class ISO:  # pylint: disable=too-many-instance-attributes,too-many-arguments
         self.efi_boot = config.pop('efi_boot', True)
 
         # Save any remaining in fields
-        self.fields.update(config)
+        self.fields.update(config.pop('extra_fields', {}))
+
+        # Warn about any unsupported fields
+        if config:
+            LOGGER.warning(
+                'Ignoring unsupported fields in flavor configuration: %s', ', '.join(config)
+            )
 
     def populate_working(self):
         """
@@ -394,7 +400,10 @@ class ISO:  # pylint: disable=too-many-instance-attributes,too-many-arguments
             grub_path.parent.mkdir(parents=True, mode=0o755, exist_ok=True)
 
         with grub_path.open('w') as grub:
-            grub.write(self.grub_template.format_map(self.fields))
+            try:
+                grub.write(self.grub_template.format_map(self.fields))
+            except KeyError as e:
+                LOGGER.error("Unknown field %s in grub_template: %s", e, self.grub_template)
 
 
 def get_config_file(flavor: Path):

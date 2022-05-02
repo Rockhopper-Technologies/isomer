@@ -1,3 +1,13 @@
+| |gh_actions| |codecov|
+
+.. |gh_actions| image:: https://img.shields.io/github/workflow/status/Rockhopper-Technologies/isomer/Tests?event=push&logo=github-actions&style=plastic
+    :target: https://github.com/Rockhopper-Technologies/isomer/actions/workflows/tests.yml
+    :alt: GitHub Actions Status
+
+.. |codecov| image:: https://img.shields.io/codecov/c/github/Rockhopper-Technologies/isomer.svg?style=plastic&logo=codecov
+    :target: https://codecov.io/gh/Rockhopper-Technologies/isomer
+    :alt: Coverage Status
+
 Overview
 ========
 

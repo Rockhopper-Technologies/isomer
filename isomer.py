@@ -25,7 +25,7 @@ import sys
 from tempfile import TemporaryDirectory
 import time
 
-__version__ = '0.8.1'
+__version__ = '0.9.0'
 
 LOGGER = logging.getLogger('isomer')
 LOGGER.addHandler(logging.NullHandler())

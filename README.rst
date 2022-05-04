@@ -61,6 +61,14 @@ Required Arguments
 
     The tool will error if a configuration file can't be found or it fails to parse and validate.
 
+| **-o FILE**
+| **--outfile**
+
+    ISO file to create
+
+    Tool will error if the parent directory doesn't exist
+    and will overwrite any existing file without prompting.
+
 | **-s DIR**
 | **--source DIR**
 
@@ -70,17 +78,21 @@ Required Arguments
 
     The tool will error if the directory doesn't exist, but it does not check the contents.
 
-| **-o FILE**
-| **--outfile**
-
-    ISO file to create
-
-    Tool will error if the parent directory doesn't exist
-    and will overwrite any existing file without prompting.
-
 
 Optional Arguments
 ------------------
+
+| **-h**
+| **--help**
+
+    Show help message and exit
+
+| **-q**
+| **--quiet**
+
+    Suppress output.
+
+    Only critical error messages are displayed.
 
 | **-w DIR**
 | **--working DIR**
@@ -92,18 +104,6 @@ Optional Arguments
     Any new contents are preserved after the ISO is generated.
 
     It is recommended to use this setting only for troubleshooting and special use cases.
-
-| **-q**
-| **--quiet**
-
-    Suppress output.
-
-    Only critical error messages are displayed.
-
-| **-h**
-| **--help**
-
-    Show help message and exit
 
 
 Flavor Configuration
@@ -179,6 +179,48 @@ Required Fields
 Optional Fields
 ---------------
 
+| **bios_boot** *True|False*
+
+    When True, boot options for bios boot are passed to xorrisofs.
+
+    This does not verify other components required for BIOS boot are available in the ISO.
+
+    Defaults to ``False``.
+
+    Example:
+
+    .. code-block:: python
+
+        bios_boot = True
+
+| **checksum** *True|False*
+
+    When True, the ISO checksum is calculated and injected into the ISO after creation.
+
+    This allows for checking the iso after downloading with a utility like ``checkisomd5``.
+
+    Defaults to ``True``.
+
+    Example:
+
+    .. code-block:: python
+
+        checksum = False
+
+| **efi_boot** *True|False*
+
+    When True, boot options for EFI boot are passed to xorrisofs.
+
+    This does not verify other components required for EFI boot are available in the ISO.
+
+    Defaults to ``True``.
+
+    Example:
+
+    .. code-block:: python
+
+        efi_boot = True
+
 | **exclude** *['relative_path', ...]*
 
     Source files to exclude from new ISO
@@ -192,6 +234,45 @@ Optional Fields
     .. code-block:: python
 
         exclude = ['foo.txt', 'misc', 'boot/grub.cfg']
+
+| **extra_fields** *{'iso_path': 'full_path', ...}*
+
+    Extra variables to make available for substitution in ``grub_template``.
+
+    Example:
+
+    .. code-block:: python
+
+            'build_version': '1.2.3',
+            'config_opts': {'foo': 'bar', 'spam': 'eggs'},
+            'major_ver': 1,
+            'villains': ['Joker', 'Riddler', 'Penguin'],
+        }
+
+| **grub_template** *'string'*
+
+    A template for creating ``EFI/BOOT/grub.cfg``
+
+    ``grub_template`` allows variable substitution using the `Format Specification Mini-Language`_.
+
+    By default, ``volume_id`` is the only variable available for substitution.
+    If ``kickstart`` is set, ``ks_path`` is also available with a default value of ``'ks.cfg'``.
+    Any fields in ``extra_fields`` are also available for substitution.
+
+    `Format Specification Mini-Language`_
+
+    Example:
+
+    .. code-block:: python
+
+        grub_template = '''
+        menuentry 'Install {volume_id}' --hotkey=I  {{
+            linuxefi /images/pxeboot/vmlinuz inst.stage2=hd:LABEL={volume_id} inst.ks=hd:LABEL={volume_id}:{ks_path} quiet
+            initrdefi /images/pxeboot/initrd.img
+        }}
+        '''
+
+.. _Format Specification Mini-Language: https://docs.python.org/3/library/string.html#formatspec
 
 | **include** *{'iso_path': 'full_path', ...}*
 
@@ -237,88 +318,6 @@ Optional Fields
     .. code-block:: python
 
         ks_path = 'relative/path/to/kickstart'
-
-| **grub_template** *'string'*
-
-    A template for creating ``EFI/BOOT/grub.cfg``
-
-    ``grub_template`` allows variable substitution using the `Format Specification Mini-Language`_.
-
-    By default, ``volume_id`` is the only variable available for substitution.
-    If ``kickstart`` is set, ``ks_path`` is also available with a default value of ``'ks.cfg'``.
-    Any fields in ``extra_fields`` are also available for substitution.
-
-    `Format Specification Mini-Language`_
-
-    Example:
-
-    .. code-block:: python
-
-        grub_template = '''
-        menuentry 'Install {volume_id}' --hotkey=I  {{
-            linuxefi /images/pxeboot/vmlinuz inst.stage2=hd:LABEL={volume_id} inst.ks=hd:LABEL={volume_id}:{ks_path} quiet
-            initrdefi /images/pxeboot/initrd.img
-        }}
-        '''
-
-.. _Format Specification Mini-Language: https://docs.python.org/3/library/string.html#formatspec
-
-| **checksum** *True|False*
-
-    When True, the ISO checksum is calculated and injected into the ISO after creation.
-
-    This allows for checking the iso after downloading with a utility like ``checkisomd5``.
-
-    Defaults to ``True``.
-
-    Example:
-
-    .. code-block:: python
-
-        checksum = False
-
-
-| **bios_boot** *True|False*
-
-    When True, boot options for bios boot are passed to xorrisofs.
-
-    This does not verify other components required for BIOS boot are available in the ISO.
-
-    Defaults to ``False``.
-
-    Example:
-
-    .. code-block:: python
-
-        bios_boot = True
-
-| **efi_boot** *True|False*
-
-    When True, boot options for EFI boot are passed to xorrisofs.
-
-    This does not verify other components required for EFI boot are available in the ISO.
-
-    Defaults to ``True``.
-
-    Example:
-
-    .. code-block:: python
-
-        efi_boot = True
-
-| **extra_fields** *{'iso_path': 'full_path', ...}*
-
-    Extra variables to make available for substitution in ``grub_template``.
-
-    Example:
-
-    .. code-block:: python
-
-            'build_version': '1.2.3',
-            'config_opts': {'foo': 'bar', 'spam': 'eggs'},
-            'major_ver': 1,
-            'villains': ['Joker', 'Riddler', 'Penguin'],
-        }
 
 
 FAQ

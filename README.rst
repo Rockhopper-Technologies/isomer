@@ -216,6 +216,8 @@ Optional Fields
 
     This is a shortcut for ``include = {'ks.cfg': '/path/to/kickstart'}``
 
+    Kickstart path can be overridden with ``ks_path``.
+
     Available for use in ``grub_template``.
 
     Example:
@@ -224,6 +226,18 @@ Optional Fields
 
         kickstart = '/path/to/kickstart'
 
+| **ks_path** *'string'*
+
+    Override for relative path of kickstart file.
+
+    Available for use in ``grub_template``.
+
+    Example:
+
+    .. code-block:: python
+
+        ks_path = 'relative/path/to/kickstart'
+
 | **grub_template** *'string'*
 
     A template for creating ``EFI/BOOT/grub.cfg``
@@ -231,8 +245,8 @@ Optional Fields
     ``grub_template`` allows variable substitution using the `Format Specification Mini-Language`_.
 
     By default, ``volume_id`` is the only variable available for substitution.
-    If ``kickstart`` is set, a variable, ``ks_path`` is also available with the value ``'ks.cfg'``.
-    Any extra variables in a flavor configuration are also available for substitution.
+    If ``kickstart`` is set, ``ks_path`` is also available with a default value of ``'ks.cfg'``.
+    Any fields in ``extra_fields`` are also available for substitution.
 
     `Format Specification Mini-Language`_
 

@@ -12,15 +12,13 @@
 
 - Treat kickstart as a template if file is not found? Or add kickstart template option?
 
-- Allow overriding ks_path
-
 - Allow overriding grub_cfg_path
 
 - Detect loops in include logic
 
 - Allow lone docstrings in flavor configuration
 
-- Allow overrides for implantisomd5 and xorrisofs
+- Allow overrides for implantisomd5 and xorrisofs?
 
 - Add option to overwrite/provide volume_id on command line
   - Avoid using option '-v' since it's often associated with verbosity

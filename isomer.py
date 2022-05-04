@@ -204,11 +204,14 @@ class ISO:  # pylint: disable=too-many-instance-attributes,too-many-arguments
                 f'include must be a dict not a {self.include.__class__.__name__}: {self.include}'
             )
 
+        # Check for override for kickstart
+        ks_path = config.pop('ks_path', KS_REL_PATH)
+
         if kickstart := config.pop('kickstart', None):
             if not Path(kickstart).is_file():
                 raise ValueError(f'Unable to find kickstart file: {kickstart}')
-            self.include[KS_REL_PATH] = kickstart
-            self.fields['ks_path'] = KS_REL_PATH
+            self.include[ks_path] = kickstart
+            self.fields['ks_path'] = ks_path
 
         # Grub configuration
         self.grub_template = config.pop('grub_template', None)

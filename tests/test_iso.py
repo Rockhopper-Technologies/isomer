@@ -193,6 +193,13 @@ class TestInit(unittest.TestCase):
             iso.fields, {'volume_id': 'test_1_2_3', 'ks_path': isomer.KS_REL_PATH}
         )
 
+        # Override
+        iso = self.iso_partial(config={'kickstart': KICKSTART, 'ks_path': '/foo/ks'})
+        self.assertEqual(iso.include, {'/foo/ks': KICKSTART})
+        self.assertEqual(
+            iso.fields, {'volume_id': 'test_1_2_3', 'ks_path': '/foo/ks'}
+        )
+
         # Doesn't exist
         with self.assertRaisesRegex(ValueError, 'Unable to find'):
             iso = self.iso_partial(config={'kickstart': '/not/a/real/path/test.iso'})

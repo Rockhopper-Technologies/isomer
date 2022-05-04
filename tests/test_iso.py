@@ -190,7 +190,7 @@ class TestInit(unittest.TestCase):
         iso = self.iso_partial(config={'kickstart': KICKSTART})
         self.assertEqual(iso.include, {isomer.KS_REL_PATH: KICKSTART})
         self.assertEqual(
-            iso.fields, {'volume_id': 'test_1_2_3', 'ks_path':  f'/{isomer.KS_REL_PATH}'}
+            iso.fields, {'volume_id': 'test_1_2_3', 'ks_path': isomer.KS_REL_PATH}
         )
 
         # Doesn't exist

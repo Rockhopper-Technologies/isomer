@@ -231,7 +231,7 @@ Optional Fields
     ``grub_template`` allows variable substitution using the `Format Specification Mini-Language`_.
 
     By default, ``volume_id`` is the only variable available for substitution.
-    If ``kickstart`` is set, a variable, ``ks_path`` is also available with the value ``'/ks.cfg'``.
+    If ``kickstart`` is set, a variable, ``ks_path`` is also available with the value ``'ks.cfg'``.
     Any extra variables in a flavor configuration are also available for substitution.
 
     `Format Specification Mini-Language`_

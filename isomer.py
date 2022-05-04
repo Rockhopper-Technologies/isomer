@@ -462,6 +462,7 @@ def cli(args=None):
     if configfile is None:
         sys.exit(f'Unable to locate flavor or file: {options.flavor}')
 
+    LOGGER.info('Running ISOmer %s', __version__)
     LOGGER.info('Using configuration file: %s', configfile)
 
     # Parse flavor configuration
